@@ -1,0 +1,118 @@
+#!/usr/bin/bash
+#
+# This dotfile holds all git, non-work-related settings, aliases, functions, etc.
+#
+
+############################
+### Settings / Variables ###
+############################
+
+source ~/.git-completion.bash
+HOST=`hostname -f | awk -F. '{print $1}'`
+export GIT_PS1_SHOWDIRTYSTATE=1
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+###############
+### Aliases ###
+###############
+
+alias del='git del'
+alias ga='git add'
+alias gaa='git add --all'
+alias gbrn='git br -m'
+alias gcb='git cob'
+alias gcm='git cim'
+alias gco='git co'
+alias gcp='git cp'
+alias gcpm='git cp -m1'
+alias gd='git diff'
+alias gdn='git down'
+alias gf='git fetch -p'
+alias gl='git log --decorate'
+alias glp='git log -p'
+alias gls='git ls'
+alias gll='git ll'
+alias gob=". ~/bin/git-stale-branches"
+alias gp='git push'
+alias gs='git sh'
+alias gss='git sh show'
+alias gsp='git sh pop'
+alias lbr='git br'
+alias st='git st'
+
+###################
+### Completions ###
+###################
+
+if [ -r /usr/share/bash-completion/completions/git ]; then
+    . /usr/share/bash-completion/completions/git
+    __git_complete ga _git_add
+    __git_complete lbr _git_branch
+    __git_complete del _git_branch
+    __git_complete gco _git_checkout
+    # __git_complete gcp _git_cherry_pick
+    # __git_complete gd _git_diff
+    # __git_complete gdc _git_diff
+    # __git_complete gf _git_fetch
+    # __git_complete gg _git_grep
+    __git_complete gls _git_log
+    __git_complete gll _git_log
+    # __git_complete glg _git_log
+    # __git_complete glp _git_log
+    # __git_complete gls _git_log
+    # __git_complete gp _git_pull
+    # __git_complete gpr _git_pull
+    # __git_complete gr _git_rebase
+    # __git_complete gs _git_show
+    # __git_complete gw _git_whatchanged
+    #__git_complete gu _git_branch
+fi
+
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
+
+#################
+### Functions ###
+#################
+
+function gci {
+    br_name="$(git rev-parse --abbrev-ref HEAD)"
+
+    if [[ ! "$br_name" =~ "master" ]]; then
+        split_br=(${br_name//_/ })
+        additional_text=""
+
+        if [ $# -eq 1 ] && [[ "$1" =~ "pr" ]]; then
+            additional_text="Address PR comment"
+        fi
+
+        echo [${split_br[0]}] $additional_text > ~/.gitmessage
+        git ci
+    else
+        echo "" > ~/.gitmessage
+    fi
+}
+
+function grb {
+    git rebase -i HEAD~$1
+}
+
+function gu {
+    if [ $# -eq 0 ] || [[ "$1" =~ "this" ]]; then
+        br_name="$(git rev-parse --abbrev-ref HEAD)"
+    else
+        br_name="$1"
+    fi
+    git up $br_name
+}
