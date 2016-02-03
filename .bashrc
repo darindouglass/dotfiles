@@ -1,5 +1,5 @@
-if [ -d ~/.dotfiles ]; then
-    for file in ~/.dotfiles/*;
+if [ -d ~/.aliases ]; then
+    for file in ~/.aliases/*;
     do
         . $file
     done

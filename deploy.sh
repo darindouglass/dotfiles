@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Creating dotfile directory"
-if [ ! -d ~/.dotfiles ]; then
-    mkdir ~/.dotfiles
+echo "Creating alias directory"
+if [ ! -d ~/.aliases ]; then
+    mkdir ~/.aliases
 fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -15,12 +15,12 @@ do
     cp $file ~/
 done
 
-for file in $DIR/dotfiles/*;
+for file in $DIR/aliases/*;
 do
     [[ -d $file ]] && continue
 
     echo "$file"
-    cp $file ~/.dotfiles/
+    cp $file ~/.aliases/
 done
 
 . ~/.bashrc
