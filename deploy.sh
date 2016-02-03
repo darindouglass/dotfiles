@@ -5,8 +5,9 @@ if [ ! -d ~/.dotfiles ]; then
     mkdir ~/.dotfiles
 fi
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Moving files into place"
-for file in .*;
+for file in $DIR/.*;
 do
     [[ -d $file ]] && continue
 
@@ -14,7 +15,7 @@ do
     cp $file ~/
 done
 
-for file in ./dotfiles/*;
+for file in $DIR/dotfiles/*;
 do
     [[ -d $file ]] && continue
 
