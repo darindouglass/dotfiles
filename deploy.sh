@@ -7,7 +7,7 @@ fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Moving files into place"
-for file in $DIR/.*;
+for file in $DIR/configs/*;
 do
     [[ -d $file ]] && continue
 
