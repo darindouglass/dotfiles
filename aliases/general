@@ -41,7 +41,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-export PS1='\033[1;32m\u@\h \033[1;34m\W\033[1;35m$(__git_ps1 " (%s)") \033[1;37m\$ '
+export PS1='\[\033[1;32m\]\u@\h \[\033[1;34m\]\W\[\033[1;35m\]$(__git_ps1 " (%s)") \[\033[1;37m\]\$ '
 
 export VISUAL=emacs
 export EDITOR="$VISUAL"
