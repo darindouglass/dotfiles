@@ -1,0 +1,25 @@
+[alias]
+    br = branch
+    bra = branch -a
+    ci = commit
+    cim = commit -m
+    co = checkout
+    cob = checkout -b
+    cp = cherry-pick
+    del = branch -d
+    down = pull --rebase --prune
+    last = log -1 HEAD
+    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    st = status
+    up = push --set-upstream origin
+
+[core]
+    editor = emacs
+
+[push]
+    default = simple
+
+[user]
+    email = douglassdarin@gmail.com
+    name = Darin Douglass
