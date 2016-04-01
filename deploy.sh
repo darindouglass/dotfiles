@@ -7,6 +7,8 @@ fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Moving files into place"
+
+shopt -s dotglob
 for file in $DIR/configs/*;
 do
     [[ -d $file ]] && continue
@@ -22,5 +24,6 @@ do
     echo "$file"
     cp $file ~/.aliases/
 done
+shopt -u dotglob
 
 . ~/.bashrc
