@@ -31,6 +31,7 @@ alias ga='git add'
 alias gaa='git add --all'
 alias gbrn='git br -m'
 alias gcb='git cob'
+alias gcd='git rev-list --left-right --count master..'
 alias gcm='git cim'
 alias gco='git co'
 alias gcp='git cp'
@@ -45,6 +46,8 @@ alias gll='git ll'
 alias gob=". ~/bin/git-stale-branches"
 alias gp='git push'
 alias gs='git sh'
+alias gscm='FLAKE8_STRICT=1 gcm'
+alias gsci='FLAKE8_STRICT=1 gci'
 alias gss='git sh show'
 alias gsp='git sh pop'
 alias lbr='git br'
@@ -53,9 +56,12 @@ alias st='git st'
 ###################
 ### Completions ###
 ###################
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
 
-if [ -r /usr/share/bash-completion/completions/git ]; then
-    . /usr/share/bash-completion/completions/git
+if [ -r $(brew --prefix)/etc/bash_completion.d/git ]; then
+    . $(brew --prefix)/etc/bash_completion.d/git
     __git_complete ga _git_add
     __git_complete lbr _git_branch
     __git_complete del _git_branch
@@ -78,26 +84,34 @@ if [ -r /usr/share/bash-completion/completions/git ]; then
     #__git_complete gu _git_branch
 fi
 
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
+if [ -f ~/.aliases/.git-completion.bash ]; then
+    . ~/.aliases/.git-completion.bash
 fi
 
 #################
 ### Functions ###
 #################
 
+function dr {
+    git diff $(git push --dry-run origin $1 2>&1 | tail -n 1 | tr -s ' ' | cut -d ' ' -f 2)
+    echo "git push origin $1"
+}
+
 function gci {
     br_name="$(git rev-parse --abbrev-ref HEAD)"
 
     if [[ ! "$br_name" =~ "master" ]]; then
-        split_br=(${br_name//_/ })
+        split_br=(${br_name//-/ })
         additional_text=""
 
         if [ $# -eq 1 ] && [[ "$1" =~ "pr" ]]; then
-            additional_text="Address PR comment"
+            additional_text="Address PR comments"
+        else
+            additional_text=$(join_by " " ${split_br[@]:2})
         fi
 
-        echo [${split_br[0]}] $additional_text > ~/.gitmessage
+        key="$(echo ${split_br[0]}| tr /a-z/ /A-Z/)-${split_br[1]}"
+        echo "[${key}] ${additional_text}" > ~/.gitmessage
         git ci
     else
         echo "" > ~/.gitmessage
