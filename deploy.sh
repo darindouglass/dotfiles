@@ -6,7 +6,7 @@ if [ ! -d ~/.aliases ]; then
 fi
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo "Moving files into place"
+echo "Moving files into place..."
 
 shopt -s dotglob
 for file in $DIR/configs/*;
@@ -25,5 +25,13 @@ do
     cp $file ~/.aliases/
 done
 shopt -u dotglob
+
+echo "Moving emacs config into place..."
+EMACS_DIR=~/.emacs.d
+if [ ! -d $EMACS_DIR ]; then
+    mkdir $EMACS_DIR
+fi
+
+cp -rf $DIR/emacs/* $EMACS_DIR/*
 
 . ~/.bashrc
