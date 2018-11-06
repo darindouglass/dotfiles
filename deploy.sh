@@ -32,6 +32,6 @@ if [ ! -d $EMACS_DIR ]; then
     mkdir $EMACS_DIR
 fi
 
-cp -rf $DIR/emacs/* $EMACS_DIR/*
+cp -rf $DIR/emacs $EMACS_DIR
 
 . ~/.bashrc
