@@ -61,6 +61,7 @@ alias cl='clear'
 alias fn="find . -name"
 alias gr="ag --color-path 1\;36"
 alias l='ls -al'
+alias jpp="pbpaste | jq '.' | pbcopy"
 alias psg='ps aux | grep'
 alias src='source ~/.bashrc'
 alias tf='tail -F'
