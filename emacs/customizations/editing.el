@@ -15,6 +15,9 @@
 ;; Highlights matching parenthesis
 (show-paren-mode 1)
 
+;; Always enable editorconfig
+(editorconfig-mode 1)
+
 ;; Highlight current line
 (global-hl-line-mode 1)
 
@@ -75,3 +78,6 @@
 ;; Whitespace
 (global-whitespace-mode 1)
 (setq whitespace-style (quote (face trailing tab-mark lines-tail empty)))
+
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)

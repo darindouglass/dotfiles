@@ -8,8 +8,8 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
              '("tromey" . "http://tromey.com/elpa/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
@@ -83,7 +83,16 @@
     pyenv-mode
 
     ;; python mode for nice python workflow
-    elpy))
+    elpy
+
+    ;; JS major modes
+    jsx-mode
+
+    ;; Plugin for honoring editor configs
+    editorconfig
+
+    ;; Directory tree plugin
+    neotree))
 
 ;; On OS X, an Emacs instance started from the graphical user
 ;; interface will have a different environment than a shell in a
@@ -156,28 +165,17 @@
  '(coffee-tab-width 2)
  '(package-selected-packages
    (quote
-    (puppet-mode yaml-mode markdown-mode rjsx-mode jsx-mode js2-mode clojure-mode clojure-test-mode typed-clojure-mode cider tagedit smex rainbow-delimiters pyenv-mode projectile paredit magit ido-ubiquitous exec-path-from-shell elpy clojure-mode-extra-font-locking)))
+    (scala-mode neotree dockerfile-mode json-mode groovy-mode puppet-mode yaml-mode markdown-mode rjsx-mode jsx-mode js2-mode clojure-mode clojure-test-mode typed-clojure-mode cider tagedit smex rainbow-delimiters pyenv-mode projectile paredit magit ido-ubiquitous exec-path-from-shell elpy clojure-mode-extra-font-locking)))
  '(safe-local-variable-values
    (quote
-    ((cider-boot-parameters . "api app test-paths repl -s wait")
+    ((groovy-indent-offset . 2)
+     (cider-boot-parameters . "api app test-paths repl -s wait")
      (js-indent-level . 2)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil
-                :stipple nil
-                :background "#2d2d2d"
-                :foreground "#cccccc"
-                :inverse-video nil
-                :box nil
-                :strike-through nil
-                :overline nil
-                :underline nil
-                :slant normal
-                :weight normal
-                :height 120
-                :width normal
-                :foundry "nil"
-                :family "Source Code Pro")))))
+ '(default ((t (:inherit nil :stipple nil :background "#2d2d2d" :foreground "#cccccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "nil" :family "Source Code Pro")))))
+
+(server-start)
