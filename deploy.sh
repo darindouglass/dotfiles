@@ -1,12 +1,12 @@
 #!/bin/bash
 
-echo "Creating alias directory"
-if [ ! -d ~/.aliases ]; then
-    mkdir ~/.aliases
-fi
-
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Moving files into place..."
+
+profile="~/.bash_profile"
+if [[ "$SHELL" != "/bin/bash" ]]; then
+  profile="~/.zshrc"
+fi
 
 shopt -s dotglob
 for file in $DIR/configs/*;
@@ -14,15 +14,15 @@ do
     [[ -d $file ]] && continue
 
     echo "$file"
-    cp $file ~/
+    cp $file ~/.
 done
 
-for file in $DIR/aliases/*;
+for file in $DIR/files/*;
 do
-    [[ -d $file ]] && continue
-
-    echo "$file"
-    cp $file ~/.aliases/
+    echo "Installing $file"
+    cp $file ~/.$file
+    echo "" >> $profile
+    echo "source ~/.$file" >> $profile
 done
 shopt -u dotglob
 
@@ -32,6 +32,6 @@ if [ ! -d $EMACS_DIR ]; then
     mkdir $EMACS_DIR
 fi
 
-cp -rf $DIR/emacs $EMACS_DIR
+cp -rf $DIR/emacs/* $EMACS_DIR/.
 
-. ~/.bashrc
+source $profile

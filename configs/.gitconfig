@@ -1,3 +1,6 @@
+[pretty]
+    theone=format:%C(yellow)%h %Cblue%an <%ae> %C(white)(%G?) %Cgreen%cr%Cred%d%n%s%n%b%n
+
 [alias]
     br = branch
     bra = branch -a
@@ -9,8 +12,9 @@
     del = branch -d
     down = pull --rebase --prune
     last = log -1 HEAD
-    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    l = log --graph --format=theone --decorate
+    lp = log --graph --format=theone --decorate -p
+    ll = log --graph --format=theone --decorate --numstat
     st = status
     up = push --set-upstream origin
 
@@ -23,3 +27,6 @@
 [user]
     email = douglassdarin@gmail.com
     name = Darin Douglass
+
+[commit]
+    template = ~/.gitmessage
