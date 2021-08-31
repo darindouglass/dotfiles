@@ -50,31 +50,51 @@ function start_agent {
   . "${SSH_ENV}" > /dev/null
 }
 
+function bd {
+  echo $1 | base64 --decode
+}
+
 function dr {
     git diff $(git push --dry-run origin $1 2>&1 | tail -n 1 | tr -s ' ' | cut -d ' ' -f 2)
     echo "git push origin $1"
 }
 
 function gci {
-    br_name="$(git rev-parse --abbrev-ref HEAD)"
+    branch="$(git rev-parse --abbrev-ref HEAD)"
 
-    if [[ ! "$br_name" =~ "master" ]]; then
-        split_br=(${br_name//-/ })
-        additional_text=""
+    if [[ ! "$branch" == "master" ]]; then
+        parts=("${(@s/-/)branch}")
+        suffix=$(join_by " " ${parts[@]:2})
 
-        if [ $# -eq 1 ] && [[ "$1" =~ "pr" ]]; then
-            additional_text="Address PR comments"
+        if $(echo $parts[2] | grep -vq '[0-9]'); then
+          # echo "$parts" > ~/.gitmessage
+          echo "$@" > ~/.gitmessage
         else
-            additional_text=$(join_by " " ${split_br[@]:2})
+          key="$(echo ${parts[1]} | tr /a-z/ /A-Z/)-${parts[2]}"
+          # echo "[$key] $suffix" > ~/.gitmessage
+          echo "[$key] $@" > ~/.gitmessage
+          #echo "[$key] " > ~/.gitmessage
         fi
 
-        key="$(echo ${split_br[0]}| tr /a-z/ /A-Z/)-${split_br[1]}"
-        echo "[${key}] ${additional_text}" > ~/.gitmessage
         git ci
-    else
-        echo "" > ~/.gitmessage
     fi
 }
+
+function gcm {
+    branch="$(git rev-parse --abbrev-ref HEAD)"
+
+    prefix=""
+    if [[ ! "$branch" == "master" ]]; then
+        parts=("${(@s/-/)branch}")
+        suffix=$(join_by " " ${parts[@]:2})
+
+        key="$(echo ${parts[1]} | tr /a-z/ /A-Z/)-${parts[2]}"
+        prefix="[$key] "
+    fi
+
+    git commit -m "$prefix$@"
+}
+
 
 function grb {
     git rebase -i HEAD~$1
@@ -87,4 +107,32 @@ function gu {
         br_name="$1"
     fi
     git up $br_name
+}
+
+function lsjava() {
+  /usr/libexec/java_home -V 2>&1 |\
+    grep 'x86_64' |\
+    sed -E 's/ *([0-9\._]*),.* *\"(.*)\".*/\1:\2/' |\
+    column -t -s ':'
+}
+
+function usejava() {
+  local home=$(/usr/libexec/java_home -v $1)
+  if [[ -d $home ]]; then
+    export JAVA_HOME=$home
+  fi
+}
+
+function t() {
+  if [[ $# = 0 ]]; then
+    if [[ -n $TMUX ]]; then
+      local this_session=$(tmux display-message -p "#S")
+      echo "$this_session (current)"
+      tmux list-session -F '#S' | grep -v $this_session
+    else
+      tmux list-session -F '#S'
+    fi
+  else
+    tmux -2 new-session -ADs $1
+  fi
 }

@@ -3,9 +3,9 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo "Moving files into place..."
 
-profile="~/.bash_profile"
+profile=~/.bash_profile
 if [[ "$SHELL" != "/bin/bash" ]]; then
-  profile="~/.zshrc"
+  profile=~/.zshrc
 fi
 
 shopt -s dotglob
@@ -14,15 +14,15 @@ do
     [[ -d $file ]] && continue
 
     echo "$file"
-    cp $file ~/.
+    cp $file ~/$(basename $file)
 done
 
 for file in $DIR/files/*;
 do
-    echo "Installing $file"
-    cp $file ~/.$file
+    echo "Installing $(basename $file)"
+    cp $file ~/.$(basename $file)
     echo "" >> $profile
-    echo "source ~/.$file" >> $profile
+    echo "source ~/.$(basename $file)" >> $profile
 done
 shopt -u dotglob
 
@@ -33,5 +33,3 @@ if [ ! -d $EMACS_DIR ]; then
 fi
 
 cp -rf $DIR/emacs/* $EMACS_DIR/.
-
-source $profile

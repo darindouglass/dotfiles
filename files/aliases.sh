@@ -12,8 +12,10 @@ alias gr="ag --color-path 1\;36"
 alias l='ls -al'
 alias jpp="pbpaste | jq '.' | pbcopy"
 alias psg='ps aux | grep'
-alias src='source ~/.bashrc'
+alias src='source ~/.zshrc'
+alias td='tmux detach'
 alias tf='tail -F'
+alias tw='td && ta'
 
 # Git
 alias del='git del'
@@ -22,7 +24,6 @@ alias gaa='git add --all'
 alias gbrn='git br -m'
 alias gcb='git cob'
 alias gcd='git rev-list --left-right --count master..'
-alias gcm='git cim'
 alias gco='git co'
 alias gcp='git cp'
 alias gcpm='git cp -m1'
@@ -36,9 +37,11 @@ alias gll='git ll'
 alias gob=". ~/bin/git-stale-branches"
 alias gp='git push'
 alias gs='git sh'
-alias gscm='FLAKE8_STRICT=1 gcm'
-alias gsci='FLAKE8_STRICT=1 gci'
 alias gss='git sh show'
 alias gsp='git sh pop'
 alias lbr='git br'
+alias master='gco master'
 alias st='git st'
+
+# kube
+alias wp='watch kubectl get pods'
