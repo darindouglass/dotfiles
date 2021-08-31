@@ -1,7 +1,6 @@
 ;; These customizations make it easier for you to navigate files,
 ;; switch buffers, and choose options from the minibuffer.
 
-
 ;; "When several buffers visit identically-named files,
 ;; Emacs must give the buffers distinct names. The usual method
 ;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
@@ -18,7 +17,6 @@
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 40)
-
 
 ;; ido-mode allows you to more easily navigate choices. For example,
 ;; when you want to switch buffers, ido presents you with a list
@@ -57,5 +55,5 @@
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 
-;; projectile everywhere!
-(projectile-global-mode)
+;; ;; projectile everywhere!
+;; (projectile-global-mode)

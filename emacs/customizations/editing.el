@@ -1,10 +1,34 @@
-;; Customizations relating to editing a buffer.
+(paredit-mode)
 
-;; Key binding to use "hippie expand" for text autocompletion
-;; http://www.emacswiki.org/emacs/HippieExpand
+(global-set-key (kbd "M-o") 'next-multiframe-window)
+(global-set-key (kbd "M-O") 'previous-multiframe-window)
+
+;; Linting setup
+(require 'flycheck-color-mode-line)
+;; (require 'powerline)
+;; (require 'quick-peek)
+
+;; (powerline-default-theme)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(eval-after-load "flycheck" '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+;; (with-eval-after-load 'flycheck
+;;   (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+
+;;(remove-hook 'flycheck-mode-hook #'flycheck-inline-mode)
+
+;; (setq flycheck-inline-display-function
+;;       (lambda (msg pos)
+;;         (let* ((ov (quick-peek-overlay-ensure-at pos))
+;;                (contents (quick-peek-overlay-contents ov)))
+;;           (setf (quick-peek-overlay-contents ov)
+;;                 (concat contents (when contents "\n") msg))
+;;           (quick-peek-update ov)))
+;;       flycheck-inline-clear-function #'quick-peek-hide)
+;; (setq flycheck-inline-display-function identity)
+
+;; Expansion
 (global-set-key (kbd "M-/") 'hippie-expand)
-
-;; Lisp-friendly hippie expand
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
         try-expand-dabbrev-all-buffers
@@ -12,24 +36,18 @@
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
 
-;; Highlights matching parenthesis
 (show-paren-mode 1)
-
-;; Always enable editorconfig
-(editorconfig-mode 1)
-
-;; Highlight current line
 (global-hl-line-mode 1)
 
-;; Interactive search key bindings. By default, C-s runs
-;; isearch-forward, so this swaps the bindings.
+;; searching
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
-;; Don't use hard tabs
 (setq-default indent-tabs-mode nil)
+
+(require 'dired-x)
 
 ;; When you visit a file, point goes to the last place where it
 ;; was when you previously visited the same file.
@@ -46,8 +64,6 @@
                                                "backups"))))
 (setq auto-save-default nil)
 
-
-;; comments
 (defun toggle-comment-on-line ()
   "comment or uncomment current line"
   (interactive)
@@ -79,5 +95,27 @@
 (global-whitespace-mode 1)
 (setq whitespace-style (quote (face trailing tab-mark lines-tail empty)))
 
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
+;; C-o prefix
+(global-unset-key (kbd "C-o"))
+(defun scg-enable-prefix ()
+  (local-unset-key (kbd "C-o")))
+(add-hook 'dired-mode-hook 'scg-enable-prefix)
+(global-set-key (kbd "C-o C-g") 'keyboard-quit)
+(global-set-key (kbd "C-o C-o") 'open-line)
+(global-set-key (kbd "C-o C-j") 'cider-jack-in)
+(global-set-key (kbd "C-o C-c") 'cider-connect)
+(global-set-key (kbd "C-o C-k") 'cider-repl-clear-buffer)
+(global-set-key (kbd "C-o C-n") 'goto-last-change)
+(global-set-key (kbd "C-o C-p") 'goto-last-change-reverse)
+(add-hook 'paredit-mode-hook
+          (lambda ()
+             (global-set-key (kbd "C-o C-r") 'paredit-forward-slurp-sexp)
+             (global-set-key (kbd "C-o C-l") 'paredit-forward-barf-sexp)
+             (global-set-key (kbd "C-o C-M-r") 'paredit-backward-slurp-sexp)
+             (global-set-key (kbd "C-o C-M-l") 'paredit-backward-barf-sexp)))
+
+;; install markdown-mode
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
