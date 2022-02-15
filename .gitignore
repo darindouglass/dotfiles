@@ -1,0 +1,4 @@
+.lsp
+!.lsp/config.edn
+.clj-kondo
+!.clj-kondo/config.edn
