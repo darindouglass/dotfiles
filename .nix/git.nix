@@ -20,7 +20,7 @@
   programs.git = {
     enable = true;
     userName = "Darin Douglass";
-    userEmail = "darin.douglass@reifyhealth.com";
+    userEmail = "douglassdarin@gmail.com";
     signing = {
       key = "fixme";
       signByDefault = true;

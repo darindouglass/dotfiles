@@ -77,6 +77,7 @@ in {
 
       export GPG_TTY=$(tty) # setup gpg per GitHub docs
       export MINIKUBE_IN_STYLE="false"; # get those emoji out of my terminal
+      export GRAALVM_HOME=$(asdf where graalvm)
 
       # Start up Starship shell
       eval "$(starship init zsh)"
@@ -87,6 +88,7 @@ in {
 
       # Load asdf
       . $HOME/.asdf/asdf.sh
+      . $HOME/.asdf/plugins/java/set-java-home.zsh
 
       # Hook direnv into your shell.
       eval "$(direnv hook zsh)"

@@ -69,6 +69,7 @@ in {
     circleci-cli
     # clj-kondo # this is old
     cloc
+    coreutils
     # clojure-lsp
     curl # An old classic
     direnv
