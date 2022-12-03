@@ -39,3 +39,20 @@
 (use-package powerline
   :ensure t
   :config (powerline-default-theme))
+
+(use-package zoom
+  :ensure t
+  :config
+  (custom-set-variables '(zoom-mode t))
+  (custom-set-variables '(zoom-size '(0.618 . 0.618))))
+
+(use-package indent-guide
+  :ensure t
+  :config (indent-guide-global-mode))
+
+(use-package diff-hl
+  :ensure t
+  :config
+  (global-diff-hl-mode)
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
